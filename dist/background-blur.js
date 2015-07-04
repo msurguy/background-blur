@@ -305,16 +305,16 @@
   Blur.prototype.createIMG = function(url, width, height){
     var that = this;
     var $originalImage = this.prependImage(url);
-    var newBlurAmount = ((this.options.blurAmount * 3) > 100) ? 100 : (this.options.blurAmount * 3);
+    var newBlurAmount = ((this.options.blurAmount * 2) > 100) ? 100 : (this.options.blurAmount * 2);
     // apply special CSS attributes to the image to blur it
     $originalImage.css({
       //filter property; here the intensity of blur multipied by two is around equal to the intensity in common browsers.
       filter: 'progid:DXImageTransform.Microsoft.Blur(pixelradius=' + newBlurAmount + ') ',
       //aligning of the blurred image by vertical and horizontal
-      top: -this.options.blurAmount * 2,
-      left: -this.options.blurAmount * 2,
-      width: width,
-      height: height})
+      top: -this.options.blurAmount * 2.5,
+      left: -this.options.blurAmount * 2.5,
+      width: width + (this.options.blurAmount * 2.5),
+      height: height + (this.options.blurAmount * 2.5) })
       .attr('id', 'blurred' + this.internalID);
 
     $originalImage.load(function(){
