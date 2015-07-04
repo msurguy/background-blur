@@ -176,6 +176,7 @@
     </style>
 </head>
 <body>
+
 <div id="preview-container">
     <div id="preview">
         <div class="container jumbotron">
@@ -184,6 +185,8 @@
                     <div class="content">
                         <h1>Image Blur Plugin</h1>
                         <p>Ultra small plugin (4kb minified, 1.5kb gzipped) for Blurring images</p>
+                        <a href="https://twitter.com/share" style="padding-top:10px;" class="twitter-share-button" data-via="msurguy" data-hashtags="webdesign">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
                     </div>
                 </div>
             </div>
@@ -194,7 +197,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="page-header">
-                <h2>Switch Image:</h2>
+                <h2>Switch Header Image:</h2>
             </div>
         </div>
     </div>
@@ -227,14 +230,39 @@
     <div class="row">
         <div class="col-md-12">
             <div class="page-header">
-                <h2>Usage</h2>
+                <h2>Usage: </h2>
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
+            <p>Create a blurred image:</p>
+            <pre>$('#some-element').backgroundBlur({
+    imageURL : 'http://URL-of-the-image',
+    blurAmount : 50,
+    imageClass : 'bg-blur'
+});</pre>
+            <p>OR Create a blurred image and fade it in:</p>
+            <pre>$('#some-element').backgroundBlur({
+    imageURL : 'http://URL-of-the-image',
+    blurAmount : 50,
+    imageClass : 'bg-blur'
+    duration: 1000, // If the image needs to be faded in, how long that should take
+    endOpacity : 1 // Specify the final opacity that the image will have
+});</pre>
+            <p>OR Create a blurred image, fade it in and switch to another image:</p>
+            <pre>// Initialize the blur
+$('#some-element').backgroundBlur({
+    imageURL : 'http://URL-of-the-image',
+    blurAmount : 50,
+    imageClass : 'bg-blur'
+    duration: 1000, // If the image needs to be faded in, how long that should take
+    endOpacity : 1 // Specify the final opacity that the image will have
+});
 
+//Switch the image
+$('#some-element').backgroundBlur('http://URL-of-another-image');</pre>
         </div>
     </div>
 
@@ -275,14 +303,62 @@ $avatarHolderEl.backgroundBlur({
         </div>
         <div class="col-md-6">
             <p>Tinted overlays:</p>
-            <div id="tinted-holder">
-
-            </div>
+            <div id="tinted-holder"></div>
             <div class="tinted-thumbnails">
                 <img src="https://unsplash.imgix.net/photo-1424746219973-8fe3bd07d8e3?fit=crop&fm=jpg&q=75&w=400" alt=""/>
                 <img src="https://ununsplash.imgix.net/photo-1429030150151-548690082f0b?fit=crop&fm=jpg&q=75&w=400" alt=""/>
                 <img src="https://unsplash.imgix.net/photo-1429042007245-890c9e2603af?fit=crop&fm=jpg&q=75&w=400" alt=""/>
                 <img src="https://ununsplash.imgix.net/photo-1429277096327-11ee3b761c93?q=75&fm=jpg&w=400&fit=max" alt=""/>
+            </div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#tinted-js" aria-controls="home" role="tab" data-toggle="tab">JS</a></li>
+                <li role="presentation"><a href="#tinted-css" aria-controls="css" role="tab" data-toggle="tab">CSS</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="tinted-js">
+                    <pre>$tintedHolderEl.backgroundBlur({
+    imageURL : 'url-of-the-image',
+    blurAmount : 10,
+    imageClass : 'tinted-bg-blur',
+    overlayClass : 'tinted-bg-overlay',
+    duration: 1000,
+    endOpacity : 1
+});</pre>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="tinted-css">
+                    <pre>.tinted-bg-blur {
+    z-index: -2;
+    opacity: 0;
+    position: absolute;
+    min-height: 100%;
+    height: auto;
+    display: block;
+    top: 0;
+    max-height: none;
+    /* Add this CSS to remove transparent border around the image */
+    left: -10%;
+    width: 120%;
+}
+
+.tinted-bg-overlay {
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZWE0ZmNlIiBzdG9wLW9wYWNpdHk9IjAuOTYiLz4KICAgIDxzdG9wIG9mZnNldD0iNjclIiBzdG9wLWNvbG9yPSIjNmE1ZmMyIiBzdG9wLW9wYWNpdHk9IjAuMTciLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzJiNjdiYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(-45deg,  rgba(234,79,206,0.96) 0%, rgba(106,95,194,0.17) 67%, rgba(43,103,188,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(234,79,206,0.96)), color-stop(67%,rgba(106,95,194,0.17)), color-stop(100%,rgba(43,103,188,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(-45deg,  rgba(234,79,206,0.96) 0%,rgba(106,95,194,0.17) 67%,rgba(43,103,188,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(-45deg,  rgba(234,79,206,0.96) 0%,rgba(106,95,194,0.17) 67%,rgba(43,103,188,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(-45deg,  rgba(234,79,206,0.96) 0%,rgba(106,95,194,0.17) 67%,rgba(43,103,188,1) 100%); /* IE10+ */
+    background: linear-gradient(135deg,  rgba(234,79,206,0.96) 0%,rgba(106,95,194,0.17) 67%,rgba(43,103,188,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5ea4fce', endColorstr='#2b67bc',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+}
+ </pre>
+                </div>
             </div>
         </div>
     </div>
@@ -299,11 +375,38 @@ $avatarHolderEl.backgroundBlur({
             <ul>
                 <li>Chrome</li>
                 <li>Firefox</li>
-                <li>Safari and Safari Mobile</li>
-                <li>IE9, IE10, IE11</li>
+                <li>Safari and Safari Mobile (iOS)</li>
+                <li>IE6, IE7, IE9, IE10, IE11</li>
                 <li>Android browsers</li>
                 <li>Possibly, more. Please let me know if some browser doesn't work</li>
             </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h2>Under the hood: </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>This plugin utilizes SVG filter to blur the image if SVG is supported by the browser (all except IE), otherwise the plugin creates an IMG tag and applies a special IE-only filter in CSS</p>
+            <p><strong>Q: </strong>Why not simply use CSS 3 blur filter? <br/><strong>A:</strong>The browser support for SVG blur filter is much wider when it comes to older browsers.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h2><a href="http://julian.com/research/velocity/" target="_blank">Velocity.js support</a>: </h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>If you are using <a href="http://julian.com/research/velocity/" target="_blank">Velocity.js</a> animation library, the plugin will automatically detect its presence and make fade in/fade out animations more performant, especially on mobile. If Velocity is not present on the page, jQuery's "animate" is used</p>
         </div>
     </div>
 
@@ -316,14 +419,15 @@ $avatarHolderEl.backgroundBlur({
     </div>
     <div class="row">
         <div class="col-md-12">
-            <p>This plugin is under MIT license, giving you permission to use for commercial and non-commercial projects</p>
+            <p>This plugin is released under MIT license, giving you permission to use for commercial and non-commercial projects</p>
         </div>
     </div>
     
 </div>
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
-
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="../bower_components/velocity/velocity.min.js"></script>
+
 <script src="../dist/background-blur.min.js"></script>
 <script>
     // Scripts for demo page
@@ -396,6 +500,9 @@ $avatarHolderEl.backgroundBlur({
         });
 
     });
+
+
 </script>
+
 </body>
 </html>
