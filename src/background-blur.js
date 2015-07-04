@@ -303,6 +303,7 @@
   };
 
   Blur.prototype.createIMG = function(url, width, height){
+    var that = this;
     var $originalImage = this.prependImage(url);
     // apply special CSS attributes to the image to blur it
     $originalImage.css({
@@ -314,6 +315,19 @@
       width: width,
       height: height})
       .attr('id', 'blurred' + this.internalID);
+
+    $originalImage.load(function(){
+      that.$element.trigger('ui.blur.loaded');
+    });
+
+    // Ensure that the image is shown after duration + 100 msec in case the image load event didn't fire or took too long
+    if (this.options.duration && this.options.duration > 0) {
+      window.setTimeout(function(){
+        if ($originalImage.css('opacity') === '0') {
+          $originalImage.css({ opacity : 1});
+        }
+      }, this.options.duration + 100);
+    }
     return $originalImage;
   };
 
