@@ -237,7 +237,14 @@
 
     <div class="row">
         <div class="col-md-12">
-            <p>Create a blurred image:</p>
+            <p>Install this plugin with Bower: </p>
+            <pre>bower install background-blur</pre>
+            <p>Or manually:</p>
+            <pre>&lt;script src="jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="background-blur.min.js"&gt;&lt;/script&gt;</pre>
+            <p>Create a container which will contain the blurred image:</p>
+            <pre>&lt;div id='some-element'&gt;&lt;/div&gt;</pre>
+            <p>Then create a blurred image in that container:</p>
             <pre>$('#some-element').backgroundBlur({
     imageURL : 'http://URL-of-the-image',
     blurAmount : 50,
