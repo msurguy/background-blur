@@ -305,7 +305,7 @@
   Blur.prototype.createIMG = function(url, width, height){
     var that = this;
     var $originalImage = this.prependImage(url);
-    var newBlurAmount = (this.options.blurAmount * 3 > 100) ? 100 : this.options.blurAmount;
+    var newBlurAmount = ((this.options.blurAmount * 3) > 100) ? 100 : (this.options.blurAmount * 3);
     // apply special CSS attributes to the image to blur it
     $originalImage.css({
       //filter property; here the intensity of blur multipied by two is around equal to the intensity in common browsers.
