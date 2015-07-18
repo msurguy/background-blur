@@ -174,7 +174,23 @@
 
         }
 
+        .video-bg-container {
+            overflow: hidden;
+            position: relative;
+            width:100%;
+        }
+
+        .video-thumbnails img {
+            width: 25%;
+            float:left;
+            cursor: pointer;
+        }
+
     </style>
+
+    <link href="//vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+    <script src="//vjs.zencdn.net/4.12/video.js"></script>
+
 </head>
 <body>
 <a href="https://github.com/msurguy/background-blur"><img style="position: absolute; top: 0; right: 0; border: 0; z-index:1000" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
@@ -370,7 +386,42 @@ $avatarHolderEl.backgroundBlur({
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p class="lead">Using video thubmbnail to create ambient background for a player (like on <a target="_blank" href="http://www.nbcnews.com/video">http://www.nbcnews.com/video</a>):</p>
+        </div>
+    </div>
 
+</div>
+
+<div class="video-bg-container">
+    <div id="video-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <!-- 16:9 aspect ratio -->
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <video id="video-element" class="video-js vjs-default-skin vjs-big-play-centered embed-responsive-item"
+                               controls preload="auto" width="auto" height="auto"
+                               poster="dist/video/lookup/lookup.jpg">
+                            <source src="dist/video/lookup/lookup.mp4" type='video/mp4' />
+                            <source src="dist/video/lookup/lookup.webm" type='video/webm' />
+                            <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                        </video>
+                    </div>
+                    <div class="video-thumbnails">
+                        <img data-mp4="dist/video/lookup/lookup.mp4" data-webm="dist/video/lookup/lookup.webm" src="dist/video/lookup/lookup.jpg" alt=""/>
+                        <img data-mp4="dist/video/frankincense/frankincense.mp4" data-webm="dist/video/frankincense/frankincense.webm" src="dist/video/frankincense/frankincense.jpg" alt=""/>
+                        <img data-mp4="dist/video/breathingbarcelona/breathingbarcelona.mp4" data-webm="dist/video/breathingbarcelona/breathingbarcelona.webm" src="dist/video/breathingbarcelona/barcelona.jpg" alt=""/>
+                        <img data-mp4="dist/video/nightoflighthouse/nightoflighthouse.mp4" data-webm="dist/video/nightoflighthouse/nightoflighthouse.webm" src="dist/video/nightoflighthouse/night.jpg" alt=""/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="page-header">
@@ -447,6 +498,10 @@ $avatarHolderEl.backgroundBlur({
         var $avatarHolderEl = $('.avatar-holder');
         var $tintedEl = $('.tinted-thumbnails img');
         var $tintedHolderEl = $('#tinted-holder');
+        var $videoBGEl = $('#video-bg');
+        var $videoBgImages = $('.video-thumbnails img');
+        var $videoEl = document.getElementById('video-element');
+
         var images = [];
         var avatars = [];
         // Simple slideshow
@@ -506,6 +561,31 @@ $avatarHolderEl.backgroundBlur({
             overlayClass : 'tinted-bg-overlay', // CSS class of an element that will overlay the blur background (useful for additional effects or putting a spinner)
             duration: 1000, // If the image needs to be faded in, how long that should take
             endOpacity : 1 // Specify the final opacity that the image will have
+        });
+
+        // Video background blur
+        var videoPlayer = videojs($videoEl);
+        $videoBGEl.backgroundBlur({
+            imageURL : 'dist/video/lookup/lookup.jpg', // URL to the image that will be used for blurring
+            blurAmount : 10, // Amount of blur (higher amount degrades browser performance)
+            imageClass : 'bg-blur', // CSS class that will be applied to the image and to the SVG element,
+            overlayClass : 'bg-blur-overlay', // CSS class of an element that will overlay the blur background (useful for additional effects or putting a spinner)
+            duration: 1000, // If the image needs to be faded in, how long that should take
+            endOpacity : 1 // Specify the final opacity that the image will have
+        });
+
+        $videoBgImages.each(function(){
+            var $el = $(this);
+            var avatarImage = $el.attr('src');
+            $el.click(function(e){
+                e.preventDefault();
+                videoPlayer.src ([
+                    { type: 'video/mp4', src: $el.data('mp4') },
+                    { type: 'video/webm', src: $el.data('webm') }
+                ]);
+                videoPlayer.poster(avatarImage);
+                $videoBGEl.backgroundBlur(avatarImage);
+            });
         });
 
     });
