@@ -137,7 +137,7 @@
     this.generateBlurredImage(this.options.imageURL);
   };
 
-  Blur.VERSION  = '0.0.1';
+  Blur.VERSION  = '0.1.1';
 
   Blur.DEFAULTS = {
     imageURL      : '', // URL to the image
