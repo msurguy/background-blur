@@ -1,6 +1,6 @@
 {
   "name": "background-blur",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "jQuery Plugin for cross-browser blurring of images",
   "main": "dist/background-blur.min.js",
   "scripts": {
